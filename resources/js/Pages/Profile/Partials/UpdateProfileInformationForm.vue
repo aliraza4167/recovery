@@ -14,7 +14,6 @@ const props = defineProps({
     status: {
         type: String,
     },
-    pains: { type: Array },
 });
 
 let selectedPain = ref([]);
@@ -24,7 +23,8 @@ const user = usePage().props.auth.user;
 const form = useForm({
     name: user.name,
     email: user.email,
-    searchPain: "",
+    description: "",
+    story: "",
 });
 </script>
 
@@ -44,8 +44,8 @@ const form = useForm({
             @submit.prevent="form.patch(route('profile.update'))"
             class="mt-6 space-y-6"
         >
-            <div class="flex flex-auto w-full">
-                <div class="m-4">
+            <div class="flex flex-wrap">
+                <div class="m-4 min-w-60">
                     <InputLabel for="name" value="Name" />
 
                     <TextInput
@@ -61,7 +61,7 @@ const form = useForm({
                     <InputError class="mt-2" :message="form.errors.name" />
                 </div>
 
-                <div class="m-4">
+                <div class="m-4 min-w-60">
                     <InputLabel for="email" value="Email" />
 
                     <TextInput
@@ -92,25 +92,41 @@ const form = useForm({
                 </div>
 
                 <div class="m-4">
-                    <InputLabel
-                        for="pain"
-                        value="Select pain that you are going through"
-                    />
+                    <InputLabel for="description" value="Describe Yourself" />
 
                     <div>
-                        <MultiSelect
-                            v-model="selectedPain"
-                            filter
-                            :options="pains"
-                            optionLabel="name"
-                            :maxSelectedLabels="2"
-                            placeholder="What are you going through?"
-                            class="w-full md:w-20rem"
-                        >
-                        </MultiSelect>
+                        <textarea
+                            rows="5"
+                            cols="40"
+                            name="description"
+                            placeholder="Describe yourself..."
+                            class="border rounded-md"
+                        ></textarea>
                     </div>
 
-                    <InputError class="mt-2" :message="form.errors.email" />
+                    <InputError
+                        class="mt-2"
+                        :message="form.errors.description"
+                    />
+                </div>
+
+                <div class="m-4">
+                    <InputLabel for="story" value="Tell your story" />
+
+                    <div>
+                        <textarea
+                            rows="5"
+                            cols="40"
+                            name="story"
+                            placeholder="Tell your story..."
+                            class="border rounded-md"
+                        ></textarea>
+                    </div>
+
+                    <InputError
+                        class="mt-2"
+                        :message="form.errors.description"
+                    />
                 </div>
 
                 <div v-if="mustVerifyEmail && user.email_verified_at === null">
