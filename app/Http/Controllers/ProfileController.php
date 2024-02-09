@@ -64,6 +64,20 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit');
     }
 
+    public function updatePainDetails(Request $request)
+    {
+        dd($request->selectedPain);
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'description' => 'required',
+            'when' => 'required'
+        ]);
+
+        Auth::user()->pains()->attach([]);
+
+        return Redirect::route('profile.edit');
+    }
+
     /**
      * Delete the user's account.
      */

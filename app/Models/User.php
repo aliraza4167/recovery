@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Post;
 use App\Models\Profile;
+use App\Models\PainList;
 
 class User extends Authenticatable
 {
@@ -58,5 +59,15 @@ class User extends Authenticatable
     public function profile()
     {
         return $this->hasOne(Profile::class);
+    }
+
+    public function pains()
+    {
+        return $this->hasMany(Pain::class);
+    }
+
+    public function suffers()
+    {
+        return $this->belongsToMany(Suffer::class, 'suffer_user', 'user_id', 'suffer_id');
     }
 }

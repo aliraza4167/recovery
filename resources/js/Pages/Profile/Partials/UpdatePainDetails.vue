@@ -34,7 +34,7 @@ const form = useForm({
         </header>
 
         <form
-            @submit.prevent="form.patch(route('profile.update'))"
+            @submit.prevent="form.patch(route('profile.painUpdate'))"
             class="mt-6 space-y-6"
         >
             <div class="">
@@ -66,7 +66,7 @@ const form = useForm({
                     >
                         <div v-text="pain.name" class="m-4"></div>
                         <div class="m-4">
-                            <div class="m-4">
+                            <div>
                                 <InputLabel
                                     for="description"
                                     value="What happened"
@@ -74,11 +74,15 @@ const form = useForm({
 
                                 <div>
                                     <textarea
+                                        v-model="
+                                            form.selectedPain[index].description
+                                        "
                                         rows="5"
                                         cols="40"
                                         name="description"
                                         placeholder="What happened..."
                                         class="border rounded-md"
+                                        required
                                     ></textarea>
                                 </div>
 

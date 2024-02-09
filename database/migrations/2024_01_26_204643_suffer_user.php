@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pain_user', function (Blueprint $table) {
+        Schema::create('suffer_user', function (Blueprint $table) {
             $table->increments('id');
-            $table->bigInteger('pain_id')->unsigned()->index();
+            $table->bigInteger('suffer_id')->unsigned()->index();
             $table->bigInteger('user_id')->unsigned()->index();
-            $table->text('description');
-            $table->timestamp('when');
-            $table->foreign('pain_id')->references('id')->on('pains')->onDelete('cascade');
+            $table->foreign('suffer_id')->references('id')->on('suffers')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
