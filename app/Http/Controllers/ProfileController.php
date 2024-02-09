@@ -24,8 +24,11 @@ class ProfileController extends Controller
             'name' => $pain->name,
             'when' => $pain->when
         ]);
+        $profile = Auth::user()->profile;
+
         return Inertia::render('Profile/Edit', [
             'pains' => $pains,
+            'profileData' => $profile,
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
         ]);
@@ -36,13 +39,27 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        // dd($request->user()->profile);
         $request->user()->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
 
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email:rfc,dns',
+            'description' => 'required',
+            'story' => 'required',
+            'gender' => 'required'
+        ]);
+
         $request->user()->save();
+        $request->user()->profile->update([
+            'description' => $validated['description'],
+            'story' => $validated['story'],
+            'gender' => $validated['gender'],
+        ]);
 
         return Redirect::route('profile.edit');
     }

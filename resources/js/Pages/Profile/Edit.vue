@@ -16,6 +16,9 @@ defineProps({
     pains: {
         type: Array,
     },
+    profileData: {
+        type: Object,
+    },
 });
 </script>
 
@@ -35,7 +38,7 @@ defineProps({
                     <UpdateProfileInformationForm
                         :must-verify-email="mustVerifyEmail"
                         :status="status"
-                        :pains="pains"
+                        :profileData="profileData"
                         class=""
                     />
                 </div>

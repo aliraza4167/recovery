@@ -6,6 +6,7 @@ import TextInput from "@/Components/TextInput.vue";
 import MultiSelect from "primevue/multiselect";
 import { Link, useForm, usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
+import { onMounted } from "vue";
 
 const props = defineProps({
     mustVerifyEmail: {
@@ -13,6 +14,9 @@ const props = defineProps({
     },
     status: {
         type: String,
+    },
+    profileData: {
+        type: Object,
     },
 });
 
@@ -25,6 +29,13 @@ const form = useForm({
     email: user.email,
     description: "",
     story: "",
+    gender: "",
+});
+
+onMounted(() => {
+    form.description = usePage().props.profileData.description;
+    form.story = usePage().props.profileData.story;
+    form.gender = usePage().props.profileData.gender;
 });
 </script>
 
@@ -80,11 +91,12 @@ const form = useForm({
                     <InputLabel for="gender" value="Gender" />
 
                     <div class="ms-3 relative border">
-                        <select name="gender" id="gender">
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="transgender">Transgender</option>
-                            <option value="other">Other</option>
+                        <select name="gender" id="gender" v-model="form.gender">
+                            <option value=""></option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Transgender">Transgender</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
 
@@ -96,6 +108,7 @@ const form = useForm({
 
                     <div>
                         <textarea
+                            v-model="form.description"
                             rows="5"
                             cols="40"
                             name="description"
@@ -115,6 +128,7 @@ const form = useForm({
 
                     <div>
                         <textarea
+                            v-model="form.story"
                             rows="5"
                             cols="40"
                             name="story"
