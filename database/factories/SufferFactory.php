@@ -17,7 +17,7 @@ class SufferFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->string(),
+            'name' => fake()->name(),
         ];
     }
 }

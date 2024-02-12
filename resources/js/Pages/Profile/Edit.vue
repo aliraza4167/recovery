@@ -13,7 +13,7 @@ defineProps({
     status: {
         type: String,
     },
-    pains: {
+    suffers: {
         type: Array,
     },
     profileData: {
@@ -46,7 +46,7 @@ defineProps({
                     <UpdatePainDetails
                         :must-verify-email="mustVerifyEmail"
                         :status="status"
-                        :pains="pains"
+                        :suffers="suffers"
                         class=""
                     />
                 </div>

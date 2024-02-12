@@ -14,6 +14,7 @@ class Profile extends Model
         'description',
         'story',
         'gender',
+        'user_id'
     ];
 
     public function user()

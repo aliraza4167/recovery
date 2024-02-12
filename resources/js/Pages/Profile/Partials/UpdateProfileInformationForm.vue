@@ -3,7 +3,6 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import MultiSelect from "primevue/multiselect";
 import { Link, useForm, usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
 import { onMounted } from "vue";
@@ -20,8 +19,6 @@ const props = defineProps({
     },
 });
 
-let selectedPain = ref([]);
-
 const user = usePage().props.auth.user;
 
 const form = useForm({
@@ -33,9 +30,11 @@ const form = useForm({
 });
 
 onMounted(() => {
-    form.description = usePage().props.profileData.description;
-    form.story = usePage().props.profileData.story;
-    form.gender = usePage().props.profileData.gender;
+    if (usePage().props.profileData != null) {
+        form.description = usePage().props.profileData.description;
+        form.story = usePage().props.profileData.story;
+        form.gender = usePage().props.profileData.gender;
+    }
 });
 </script>
 
@@ -52,7 +51,11 @@ onMounted(() => {
         </header>
 
         <form
-            @submit.prevent="form.patch(route('profile.update'))"
+            @submit.prevent="
+                $page.props.profileData == null
+                    ? form.post(route('profile.store'))
+                    : form.patch(route('profile.update'))
+            "
             class="mt-6 space-y-6"
         >
             <div class="flex flex-wrap">

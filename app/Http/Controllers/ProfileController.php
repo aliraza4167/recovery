@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\Pain;
+use App\Models\Profile;
+use App\Models\Suffer;
 
 class ProfileController extends Controller
 {
@@ -19,20 +20,39 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
-        $pains = Pain::all()->map(fn ($pain) => [
-            'pain_id' => $pain->id,
-            'name' => $pain->name,
-            'when' => $pain->when
+        $suffers = Suffer::all()->map(fn ($suffer) => [
+            'suffer_id' => $suffer->id,
+            'name' => $suffer->name,
+            'when' => $suffer->when
         ]);
         $profile = Auth::user()->profile;
 
         return Inertia::render('Profile/Edit', [
-            'pains' => $pains,
+            'suffers' => $suffers,
             'profileData' => $profile,
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
         ]);
     }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'description' => 'required',
+            'story' => 'required',
+            'gender' => 'required'
+        ]);
+
+        Profile::create([
+            'description' => $validated['description'],
+            'story' => $validated['story'],
+            'gender' => $validated['gender'],
+            'user_id' => Auth::user()->id
+        ]);
+
+        return Redirect::route('profile.edit');
+    }
+
 
     /**
      * Update the user's profile information.
@@ -48,7 +68,7 @@ class ProfileController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|max:255',
-            'email' => 'required|email:rfc,dns',
+            // 'email' => 'required|email:rfc,dns',
             'description' => 'required',
             'story' => 'required',
             'gender' => 'required'
@@ -66,8 +86,11 @@ class ProfileController extends Controller
 
     public function updatePainDetails(Request $request)
     {
-        dd($request->selectedPain);
-        $validated = $request->validate([
+        // dd($request->selectedPain);
+        foreach ($request->selectedPain as $key => $pain) {
+            dd($pain);
+        }
+        $validated = $request->selectedPain->validate([
             'name' => 'required|max:255',
             'description' => 'required',
             'when' => 'required'

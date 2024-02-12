@@ -9,7 +9,7 @@ import { Link, useForm, usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
 
 const props = defineProps({
-    pains: { type: Array },
+    suffers: { type: Array },
 });
 
 // let selectedPain = ref([]);
@@ -48,7 +48,7 @@ const form = useForm({
                         <MultiSelect
                             v-model="form.selectedPain"
                             filter
-                            :options="pains"
+                            :options="suffers"
                             optionLabel="name"
                             :maxSelectedLabels="2"
                             placeholder="What are you going through?"
