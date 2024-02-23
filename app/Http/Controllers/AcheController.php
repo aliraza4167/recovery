@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Suffer;
+use App\Models\Ache;
 use Illuminate\Http\Request;
 
-class SufferController extends Controller
+class AcheController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class SufferController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Suffer $suffer)
+    public function show(Ache $ache)
     {
         //
     }
@@ -42,7 +42,7 @@ class SufferController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Suffer $suffer)
+    public function edit(Ache $ache)
     {
         //
     }
@@ -50,7 +50,7 @@ class SufferController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Suffer $suffer)
+    public function update(Request $request, Ache $ache)
     {
         //
     }
@@ -58,7 +58,7 @@ class SufferController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Suffer $suffer)
+    public function destroy(Ache $ache)
     {
         //
     }

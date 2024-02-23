@@ -9,7 +9,7 @@ import { Link, useForm, usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
 
 const props = defineProps({
-    suffers: { type: Array },
+    aches: { type: Array },
 });
 
 // let selectedPain = ref([]);
@@ -34,7 +34,7 @@ const form = useForm({
         </header>
 
         <form
-            @submit.prevent="form.patch(route('profile.painUpdate'))"
+            @submit.prevent="form.post(route('profile.painUpdate'))"
             class="mt-6 space-y-6"
         >
             <div class="">
@@ -48,7 +48,7 @@ const form = useForm({
                         <MultiSelect
                             v-model="form.selectedPain"
                             filter
-                            :options="suffers"
+                            :options="aches"
                             optionLabel="name"
                             :maxSelectedLabels="2"
                             placeholder="What are you going through?"
@@ -82,7 +82,6 @@ const form = useForm({
                                         name="description"
                                         placeholder="What happened..."
                                         class="border rounded-md"
-                                        required
                                     ></textarea>
                                 </div>
 

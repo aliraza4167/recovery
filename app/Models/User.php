@@ -66,8 +66,8 @@ class User extends Authenticatable
         return $this->hasMany(Pain::class);
     }
 
-    public function suffers()
-    {
-        return $this->belongsToMany(Suffer::class, 'suffer_user', 'user_id', 'suffer_id');
-    }
+    // public function suffers()
+    // {
+    //     return $this->belongsToMany(Suffer::class, 'suffer_user', 'user_id', 'suffer_id');
+    // }
 }

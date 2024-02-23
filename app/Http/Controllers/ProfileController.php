@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfilePainRequest;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Ache;
+use App\Models\Pain;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -11,7 +14,6 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Profile;
-use App\Models\Suffer;
 
 class ProfileController extends Controller
 {
@@ -20,15 +22,15 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
-        $suffers = Suffer::all()->map(fn ($suffer) => [
-            'suffer_id' => $suffer->id,
-            'name' => $suffer->name,
-            'when' => $suffer->when
+        $aches = Ache::all()->map(fn ($ache) => [
+            'ache_id' => $ache->id,
+            'name' => $ache->name,
+            'when' => $ache->when
         ]);
         $profile = Auth::user()->profile;
 
         return Inertia::render('Profile/Edit', [
-            'suffers' => $suffers,
+            'aches' => $aches,
             'profileData' => $profile,
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
@@ -67,7 +69,7 @@ class ProfileController extends Controller
         }
 
         $validated = $request->validate([
-            'name' => 'required|max:255',
+            // 'name' => 'required|max:255',
             // 'email' => 'required|email:rfc,dns',
             'description' => 'required',
             'story' => 'required',
@@ -84,19 +86,28 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit');
     }
 
-    public function updatePainDetails(Request $request)
+    public function updatePainDetails(ProfilePainRequest $request)
     {
-        // dd($request->selectedPain);
-        foreach ($request->selectedPain as $key => $pain) {
+        dd($request->selectedPain);
+        foreach ($request as $pain) {
             dd($pain);
         }
-        $validated = $request->selectedPain->validate([
-            'name' => 'required|max:255',
-            'description' => 'required',
-            'when' => 'required'
-        ]);
+        // foreach ($request->selectedPain as $key => $pain) {
+        //     // dd($pain);
+        //     $validated = $request->validate([
+        //         'name' => 'required|max:255',
+        //         'description' => 'required',
+        //         'when' => 'required'
+        //     ]);
 
-        Auth::user()->pains()->attach([]);
+        //     // Auth::user()->a()->attach([$validated['suffer_id']]);
+        //     Pain::create([
+        //         'name' => $validated['name'],
+        //         'description' => $validated['description'],
+        //         'when' => $validated['when'],
+        //         'user_id' => Auth::user()->id
+        //     ]);
+        // }
 
         return Redirect::route('profile.edit');
     }
