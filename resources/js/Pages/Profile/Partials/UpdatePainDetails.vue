@@ -4,6 +4,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import MultiSelect from "primevue/multiselect";
+import AutoComplete from "primevue/autocomplete";
 import Calendar from "primevue/calendar";
 import { Link, useForm, usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
@@ -12,13 +13,29 @@ const props = defineProps({
     aches: { type: Array },
 });
 
-// let selectedPain = ref([]);
-
+const filteredAches = ref();
 const user = usePage().props.auth.user;
 
 const form = useForm({
     selectedPain: "",
+    painName: "",
+    painDescription: "",
+    painWhen: "",
 });
+
+const search = (event) => {
+    setTimeout(() => {
+        if (!event.query.trim().length) {
+            filteredAches.value = usePage().props.aches;
+        } else {
+            filteredAches.value = usePage().props.aches.filter((ache) => {
+                return ache.name
+                    .toLowerCase()
+                    .startsWith(event.query.toLowerCase());
+            });
+        }
+    }, 250);
+};
 </script>
 
 <template>
@@ -38,7 +55,7 @@ const form = useForm({
             class="mt-6 space-y-6"
         >
             <div class="">
-                <div class="m-4 min-w-60">
+                <!-- <div class="m-4 min-w-60">
                     <InputLabel
                         for="pain"
                         value="Select pain that you are going through"
@@ -57,44 +74,49 @@ const form = useForm({
                         </MultiSelect>
                     </div>
 
-                    <!-- <InputError class="mt-2" :message="form.errors.pains" /> -->
-                </div>
+                    <InputError class="mt-2" :message="form.errors.pains" />
+                </div> -->
 
-                <div v-for="(pain, index) in form.selectedPain" :key="index">
-                    <div
-                        class="flex justify-between bg-blue-100 m-4 rounded-md"
-                    >
-                        <div v-text="pain.name" class="m-4"></div>
-                        <div class="m-4">
-                            <div>
-                                <InputLabel
-                                    for="description"
-                                    value="What happened"
-                                />
+                <div class="flex justify-between bg-blue-100 m-4 rounded-md">
+                    <div class="m-4">
+                        <div>
+                            <InputLabel for="painName" value="What happened" />
 
-                                <div>
-                                    <textarea
-                                        v-model="
-                                            form.selectedPain[index].description
-                                        "
-                                        rows="5"
-                                        cols="40"
-                                        name="description"
-                                        placeholder="What happened..."
-                                        class="border rounded-md"
-                                    ></textarea>
-                                </div>
+                            <AutoComplete
+                                v-model="form.painName"
+                                optionLabel="name"
+                                :suggestions="filteredAches"
+                                @complete="search"
+                            />
 
-                                <InputError
-                                    class="mt-2"
-                                    :message="form.errors.description"
-                                />
-                            </div>
+                            <!-- <InputError class="mt-2" :message="form.errors" /> -->
                         </div>
-                        <div class="m-4">
+                    </div>
+
+                    <div class="m-4">
+                        <div>
+                            <InputLabel
+                                for="description"
+                                value="What happened"
+                            />
+
+                            <textarea
+                                v-model="form.painDescription"
+                                rows="5"
+                                cols="40"
+                                name="description"
+                                placeholder="What happened..."
+                                class="border rounded-md"
+                            ></textarea>
+
+                            <!-- <InputError class="mt-2" :message="form.errors" /> -->
+                        </div>
+                    </div>
+                    <div class="m-4">
+                        <div>
                             <InputLabel for="when" value="When did it happen" />
                             <Calendar
-                                v-model="form.selectedPain[index].when"
+                                v-model="form.painWhen"
                                 dateFormat="dd/mm/yy"
                                 :manualInput="false"
                                 showIcon

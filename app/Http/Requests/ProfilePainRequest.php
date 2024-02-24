@@ -21,10 +21,15 @@ class ProfilePainRequest extends FormRequest
      */
     public function rules(): array
     {
+        // return [
+        //     'selectedPain.*.name' => ['required', 'string', 'max:255'],
+        //     'selectedPain.*.description' => ['required'],
+        //     'selectedPain.*.when' => ['required', 'date']
+        // ];
         return [
-            'selectedPain.*.name' => ['required', 'string', 'max:255'],
-            'selectedPain.*.description' => ['required'],
-            'selectedPain.*.when' => ['required', 'date']
+            'painName' => ['required', 'string', 'max:255'],
+            'painDescription' => ['required'],
+            'painWhen' => ['required', 'date']
         ];
     }
 }

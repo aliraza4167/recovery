@@ -89,7 +89,7 @@ class ProfileController extends Controller
     public function updatePainDetails(ProfilePainRequest $request)
     {
         dd($request->selectedPain);
-        foreach ($request as $pain) {
+        foreach ($request->selectedPain as $pain) {
             dd($pain);
         }
         // foreach ($request->selectedPain as $key => $pain) {
