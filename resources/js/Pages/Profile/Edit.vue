@@ -16,6 +16,9 @@ defineProps({
     aches: {
         type: Array,
     },
+    pains: {
+        type: Array,
+    },
     profileData: {
         type: Object,
     },
@@ -47,6 +50,7 @@ defineProps({
                         :must-verify-email="mustVerifyEmail"
                         :status="status"
                         :aches="aches"
+                        :pains="pains"
                         class=""
                     />
                 </div>

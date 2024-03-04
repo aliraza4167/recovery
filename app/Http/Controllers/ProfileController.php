@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Profile;
+use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
@@ -31,6 +32,7 @@ class ProfileController extends Controller
 
         return Inertia::render('Profile/Edit', [
             'aches' => $aches,
+            'pains' => Auth::user()->pains,
             'profileData' => $profile,
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
@@ -88,26 +90,17 @@ class ProfileController extends Controller
 
     public function updatePainDetails(ProfilePainRequest $request)
     {
-        dd($request->selectedPain);
-        foreach ($request->selectedPain as $pain) {
-            dd($pain);
-        }
-        // foreach ($request->selectedPain as $key => $pain) {
-        //     // dd($pain);
-        //     $validated = $request->validate([
-        //         'name' => 'required|max:255',
-        //         'description' => 'required',
-        //         'when' => 'required'
-        //     ]);
+        // dd($request->painName);
+        // Auth::user()->a()->attach([$validated['suffer_id']]);
+        // $converted_date = Carbon::parse($request->painWhen);
+        $converted_date = strtotime($request->painWhen);
 
-        //     // Auth::user()->a()->attach([$validated['suffer_id']]);
-        //     Pain::create([
-        //         'name' => $validated['name'],
-        //         'description' => $validated['description'],
-        //         'when' => $validated['when'],
-        //         'user_id' => Auth::user()->id
-        //     ]);
-        // }
+        Pain::create([
+            'name' => $request->painName,
+            'description' => $request->painDescription,
+            'when' => $converted_date,
+            'user_id' => Auth::user()->id
+        ]);
 
         return Redirect::route('profile.edit');
     }

@@ -4,6 +4,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import MultiSelect from "primevue/multiselect";
+import Editor from "primevue/editor";
 import AutoComplete from "primevue/autocomplete";
 import Calendar from "primevue/calendar";
 import { Link, useForm, usePage } from "@inertiajs/vue3";
@@ -11,30 +12,26 @@ import { ref } from "vue";
 
 const props = defineProps({
     aches: { type: Array },
+    pains: { type: Array },
 });
 
 const filteredAches = ref();
 const user = usePage().props.auth.user;
 
 const form = useForm({
-    selectedPain: "",
     painName: "",
     painDescription: "",
     painWhen: "",
 });
 
 const search = (event) => {
-    setTimeout(() => {
-        if (!event.query.trim().length) {
-            filteredAches.value = usePage().props.aches;
-        } else {
-            filteredAches.value = usePage().props.aches.filter((ache) => {
-                return ache.name
-                    .toLowerCase()
-                    .startsWith(event.query.toLowerCase());
-            });
-        }
-    }, 250);
+    filteredAches.value = usePage().props.aches.filter((ache) => {
+        return ache.name.toLowerCase().startsWith(event.query.toLowerCase());
+    });
+};
+
+const focusOut = function () {
+    form.painName = form.painName.name;
 };
 </script>
 
@@ -50,6 +47,33 @@ const search = (event) => {
             </p>
         </header>
 
+        <div
+            v-for="(pain, index) in pains"
+            :key="index"
+            class="flex justify-between rounded-md m-4 bg-blue-100 p-4"
+        >
+            <div>
+                <h3>What are you going through?</h3>
+                <div>{{ pain.name }}</div>
+            </div>
+            <div>
+                <h3>What happened?</h3>
+                <div v-html="pain.description"></div>
+            </div>
+            <div>
+                <h3>When did it happen?</h3>
+                <div>
+                    {{
+                        new Date(pain.when).toLocaleDateString("en-us", {
+                            weekday: "long",
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                        })
+                    }}
+                </div>
+            </div>
+        </div>
         <form
             @submit.prevent="form.post(route('profile.painUpdate'))"
             class="mt-6 space-y-6"
@@ -87,9 +111,13 @@ const search = (event) => {
                                 optionLabel="name"
                                 :suggestions="filteredAches"
                                 @complete="search"
+                                v-on:blur="focusOut"
                             />
 
-                            <!-- <InputError class="mt-2" :message="form.errors" /> -->
+                            <InputError
+                                class="mt-2"
+                                :message="form.errors.painName"
+                            />
                         </div>
                     </div>
 
@@ -99,17 +127,23 @@ const search = (event) => {
                                 for="description"
                                 value="What happened"
                             />
-
-                            <textarea
+                            <Editor
+                                v-model="form.painDescription"
+                                editorStyle="height: 320px"
+                            />
+                            <!-- <textarea
                                 v-model="form.painDescription"
                                 rows="5"
                                 cols="40"
                                 name="description"
                                 placeholder="What happened..."
                                 class="border rounded-md"
-                            ></textarea>
+                            ></textarea> -->
 
-                            <!-- <InputError class="mt-2" :message="form.errors" /> -->
+                            <InputError
+                                class="mt-2"
+                                :message="form.errors.painDescription"
+                            />
                         </div>
                     </div>
                     <div class="m-4">

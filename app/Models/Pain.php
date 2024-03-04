@@ -9,6 +9,18 @@ class Pain extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'description',
+        'when',
+        'user_id'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
