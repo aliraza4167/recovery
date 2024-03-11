@@ -31,7 +31,9 @@ const search = (event) => {
 };
 
 const focusOut = function () {
-    form.painName = form.painName.name;
+    if (filteredAches.value.length > 0) {
+        form.painName = form.painName.name;
+    }
 };
 </script>
 
@@ -79,28 +81,6 @@ const focusOut = function () {
             class="mt-6 space-y-6"
         >
             <div class="">
-                <!-- <div class="m-4 min-w-60">
-                    <InputLabel
-                        for="pain"
-                        value="Select pain that you are going through"
-                    />
-
-                    <div>
-                        <MultiSelect
-                            v-model="form.selectedPain"
-                            filter
-                            :options="aches"
-                            optionLabel="name"
-                            :maxSelectedLabels="2"
-                            placeholder="What are you going through?"
-                            class="max-w-80 md:w-20rem"
-                        >
-                        </MultiSelect>
-                    </div>
-
-                    <InputError class="mt-2" :message="form.errors.pains" />
-                </div> -->
-
                 <div class="flex justify-between bg-blue-100 m-4 rounded-md">
                     <div class="m-4">
                         <div>
@@ -131,14 +111,6 @@ const focusOut = function () {
                                 v-model="form.painDescription"
                                 editorStyle="height: 320px"
                             />
-                            <!-- <textarea
-                                v-model="form.painDescription"
-                                rows="5"
-                                cols="40"
-                                name="description"
-                                placeholder="What happened..."
-                                class="border rounded-md"
-                            ></textarea> -->
 
                             <InputError
                                 class="mt-2"

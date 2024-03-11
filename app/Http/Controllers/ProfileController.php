@@ -92,8 +92,8 @@ class ProfileController extends Controller
     {
         // dd($request->painName);
         // Auth::user()->a()->attach([$validated['suffer_id']]);
-        // $converted_date = Carbon::parse($request->painWhen);
-        $converted_date = strtotime($request->painWhen);
+        $converted_date = Carbon::parse($request->painWhen);
+        // $converted_date = strtotime($request->painWhen);
 
         Pain::create([
             'name' => $request->painName,
