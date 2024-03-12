@@ -77,7 +77,11 @@ const focusOut = function () {
             </div>
         </div>
         <form
-            @submit.prevent="form.post(route('profile.painUpdate'))"
+            @submit.prevent="
+                form.post(route('profile.painUpdate'), {
+                    onSuccess: () => form.reset(),
+                })
+            "
             class="mt-6 space-y-6"
         >
             <div class="">
