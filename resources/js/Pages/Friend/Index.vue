@@ -46,17 +46,10 @@ const unfriend = (id) => {
                                 :key="friend.id"
                                 class="flex justify-between space-y-2"
                             >
-                                <li>{{ friend.name }}</li>
+                                <Link :href="`user/${friend.id}`"
+                                    ><li>{{ friend.name }}</li></Link
+                                >
                                 <li>
-                                    <!-- <Link
-                                        :href="`/friends/${friend.id}`"
-                                        method="delete"
-                                        as="button"
-                                        type="button"
-                                        class="border-1 bg-sky-100 hover:bg-red-100 p-2 rounded-md"
-                                        :data="{ friend: friend.id }"
-                                        >Unfriend</Link
-                                    > -->
                                     <button
                                         @click="unfriend(friend.id)"
                                         class="border-1 bg-sky-100 hover:bg-red-100 p-2 rounded-md"
