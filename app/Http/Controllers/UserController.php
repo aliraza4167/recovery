@@ -21,7 +21,8 @@ class UserController extends Controller
         return Inertia::render('Friend/Index', [
             'friends' => Auth::user()->friends->map(fn ($friend) => [
                 'id' => $friend->id,
-                'name' => $friend->name
+                'name' => $friend->name,
+                'profile' => $friend->profile
             ])
         ]);
     }

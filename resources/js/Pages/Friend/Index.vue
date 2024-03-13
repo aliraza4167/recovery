@@ -3,21 +3,25 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router, useForm } from "@inertiajs/vue3";
 // import { Inertia } from "@inertiajs/inertia";
 import { stringify } from "postcss";
+import Dialog from "primevue/dialog";
+import { ref } from "vue";
+import UserPublicProfile from "../UserPublicProfile.vue";
 
 defineProps({
     friends: Array,
 });
+
+const visible = ref(false);
 
 const form = useForm({});
 
 const unfriend = (id) => {
     form.delete(`/friends/${id}`);
 };
-// function destroy(id) {
-//     if (confirm("Are you sure you want to unfriend?")) {
-//         form.delete(`friends/${id}`);
-//     }
-// }
+
+const showProfile = function () {
+    visible.value = !visible.value;
+};
 </script>
 
 <template>
@@ -46,9 +50,14 @@ const unfriend = (id) => {
                                 :key="friend.id"
                                 class="flex justify-between space-y-2"
                             >
-                                <Link :href="`user/${friend.id}`"
+                                <!-- <Link :href="`user/${friend.id}`"
                                     ><li>{{ friend.name }}</li></Link
-                                >
+                                > -->
+                                <li>
+                                    <button @click="showProfile">
+                                        {{ friend.name }}
+                                    </button>
+                                </li>
                                 <li>
                                     <button
                                         @click="unfriend(friend.id)"
@@ -58,6 +67,16 @@ const unfriend = (id) => {
                                         Unfriend
                                     </button>
                                 </li>
+                                <Dialog
+                                    v-model:visible="visible"
+                                    modal
+                                    :header="`${friend.name}`"
+                                >
+                                    <UserPublicProfile
+                                        :user="friend"
+                                        :profile="friend.profile"
+                                    />
+                                </Dialog>
                             </ul>
                         </div>
                         <div v-else>No Friends found</div>
