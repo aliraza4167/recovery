@@ -16,12 +16,6 @@ defineProps({
     aches: {
         type: Array,
     },
-    pains: {
-        type: Array,
-    },
-    profileData: {
-        type: Object,
-    },
 });
 </script>
 
@@ -41,8 +35,6 @@ defineProps({
                     <UpdateProfileInformationForm
                         :must-verify-email="mustVerifyEmail"
                         :status="status"
-                        :profileData="profileData"
-                        class=""
                     />
                 </div>
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
@@ -50,8 +42,6 @@ defineProps({
                         :must-verify-email="mustVerifyEmail"
                         :status="status"
                         :aches="aches"
-                        :pains="pains"
-                        class=""
                     />
                 </div>
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">

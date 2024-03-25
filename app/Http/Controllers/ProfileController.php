@@ -28,12 +28,12 @@ class ProfileController extends Controller
             'name' => $ache->name,
             'when' => $ache->when
         ]);
-        $profile = Auth::user()->profile;
+        $profile = Auth::user()->profile->only('user_id', 'gender', 'description', 'story');
 
         return Inertia::render('Profile/Edit', [
             'aches' => $aches,
-            'pains' => Auth::user()->pains,
-            'profileData' => $profile,
+            // 'pains' => Auth::user()->pains,
+            // 'profileData' => $profile,
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
         ]);

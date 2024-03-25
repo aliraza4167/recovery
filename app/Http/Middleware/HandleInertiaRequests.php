@@ -32,8 +32,24 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => fn () => $request->user()
+                    ? $request->user()->only('id', 'name', 'email')
+                    : null,
+                'pains' => fn () => $request->user()
+                    ? $request->user()->pains->map(fn ($pain) => [
+                        'user_id' => $pain->user_id,
+                        'name' => $pain->name,
+                        'description' => $pain->description,
+                        'when' => $pain->when
+                    ])
+                    : null,
+                'profile' => fn () => $request->user()
+                    ? $request->user()->profile->only('user_id', 'gender', 'description', 'story')
+                    : null,
             ],
+            // 'auth' => [
+            //     'user' => $request->user(),
+            // ],
         ];
     }
 }

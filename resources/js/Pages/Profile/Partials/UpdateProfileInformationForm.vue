@@ -4,18 +4,14 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { Link, useForm, usePage } from "@inertiajs/vue3";
-import { ref } from "vue";
 import { onMounted } from "vue";
 
-const props = defineProps({
+defineProps({
     mustVerifyEmail: {
         type: Boolean,
     },
     status: {
         type: String,
-    },
-    profileData: {
-        type: Object,
     },
 });
 
@@ -30,10 +26,10 @@ const form = useForm({
 });
 
 onMounted(() => {
-    if (usePage().props.profileData != null) {
-        form.description = usePage().props.profileData.description;
-        form.story = usePage().props.profileData.story;
-        form.gender = usePage().props.profileData.gender;
+    if (usePage().props.auth.profile != null) {
+        form.description = usePage().props.auth.profile.description;
+        form.story = usePage().props.auth.profile.story;
+        form.gender = usePage().props.auth.profile.gender;
     }
 });
 </script>
@@ -84,7 +80,7 @@ onMounted(() => {
                         class="mt-1 block w-full"
                         v-model="form.email"
                         required
-                        autocomplete="username"
+                        autocomplete="email"
                     />
 
                     <InputError class="mt-2" :message="form.errors.email" />

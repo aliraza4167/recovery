@@ -2,21 +2,18 @@
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
-import MultiSelect from "primevue/multiselect";
 import Editor from "primevue/editor";
 import AutoComplete from "primevue/autocomplete";
 import Calendar from "primevue/calendar";
-import { Link, useForm, usePage } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
 
 const props = defineProps({
     aches: { type: Array },
-    pains: { type: Array },
 });
 
 const filteredAches = ref();
-const user = usePage().props.auth.user;
+const pains = usePage().props.auth.pains;
 
 const form = useForm({
     painName: "",
