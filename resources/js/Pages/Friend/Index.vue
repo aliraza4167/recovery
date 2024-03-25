@@ -54,9 +54,9 @@ const showProfile = function () {
                                     ><li>{{ friend.name }}</li></Link
                                 > -->
                                 <li>
-                                    <button @click="showProfile">
+                                    <Link :href="`user/` + friend.id">
                                         {{ friend.name }}
-                                    </button>
+                                    </Link>
                                 </li>
                                 <li>
                                     <button
@@ -67,7 +67,7 @@ const showProfile = function () {
                                         Unfriend
                                     </button>
                                 </li>
-                                <Dialog
+                                <!-- <Dialog
                                     v-model:visible="visible"
                                     modal
                                     :header="`${friend.name}`"
@@ -76,7 +76,7 @@ const showProfile = function () {
                                         :user="friend"
                                         :profile="friend.profile"
                                     />
-                                </Dialog>
+                                </Dialog> -->
                             </ul>
                         </div>
                         <div v-else>No Friends found</div>
