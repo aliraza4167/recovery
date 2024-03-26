@@ -1,26 +1,16 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router, useForm } from "@inertiajs/vue3";
-// import { Inertia } from "@inertiajs/inertia";
-import { stringify } from "postcss";
-import Dialog from "primevue/dialog";
-import { ref } from "vue";
-import UserPublicProfile from "../UserPublicProfile.vue";
+import Avatar from "primevue/avatar";
 
 defineProps({
     friends: Array,
 });
 
-const visible = ref(false);
-
 const form = useForm({});
 
 const unfriend = (id) => {
     form.delete(`/friends/${id}`);
-};
-
-const showProfile = function () {
-    visible.value = !visible.value;
 };
 </script>
 
@@ -48,35 +38,33 @@ const showProfile = function () {
                             <ul
                                 v-for="(friend, index) in friends"
                                 :key="friend.id"
-                                class="flex justify-between space-y-2"
                             >
-                                <!-- <Link :href="`user/${friend.id}`"
-                                    ><li>{{ friend.name }}</li></Link
-                                > -->
-                                <li>
-                                    <Link :href="`user/` + friend.id">
-                                        {{ friend.name }}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <button
-                                        @click="unfriend(friend.id)"
-                                        class="border-1 bg-sky-100 hover:bg-red-100 p-2 rounded-md"
-                                        type="button"
-                                    >
-                                        Unfriend
-                                    </button>
-                                </li>
-                                <!-- <Dialog
-                                    v-model:visible="visible"
-                                    modal
-                                    :header="`${friend.name}`"
+                                <div
+                                    class="flex justify-between space-y-4 rounded-md"
                                 >
-                                    <UserPublicProfile
-                                        :user="friend"
-                                        :profile="friend.profile"
-                                    />
-                                </Dialog> -->
+                                    <li>
+                                        <Link :href="`user/` + friend.id">
+                                            <Avatar
+                                                :label="
+                                                    Array.from(friend.name)[0]
+                                                "
+                                                class="mr-2 hover:bg-red-100"
+                                                size="large"
+                                            />
+                                            {{ friend.name }}
+                                        </Link>
+                                    </li>
+
+                                    <li>
+                                        <button
+                                            @click="unfriend(friend.id)"
+                                            class="border-1 bg-sky-100 hover:bg-red-100 p-2 rounded-md"
+                                            type="button"
+                                        >
+                                            Unfriend
+                                        </button>
+                                    </li>
+                                </div>
                             </ul>
                         </div>
                         <div v-else>No Friends found</div>

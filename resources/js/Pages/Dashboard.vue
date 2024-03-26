@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link } from "@inertiajs/vue3";
+import Avatar from "primevue/avatar";
 
 defineProps({
     users: Array,
@@ -30,9 +31,18 @@ defineProps({
                         <ul
                             v-for="(user, index) in users"
                             :key="user.id"
-                            class="flex justify-between space-y-2"
+                            class="flex justify-between space-y-4"
                         >
-                            <li v-text="user.name"></li>
+                            <Link :href="`user/` + user.id">
+                                <li>
+                                    <Avatar
+                                        :label="Array.from(user.name)[0]"
+                                        class="mr-2 hover:bg-red-100"
+                                        size="large"
+                                    />
+                                    {{ user.name }}
+                                </li>
+                            </Link>
                             <Link
                                 :href="`/friends/${user.id}`"
                                 method="post"

@@ -1,15 +1,18 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, Link, useForm } from "@inertiajs/vue3";
 
 defineProps({
     user: {
         type: Object,
     },
-    profile: {
-        type: Object,
-    },
 });
+
+const form = useForm({});
+
+const unfriend = (id) => {
+    form.delete(`/friends/${id}`);
+};
 </script>
 
 <template>
@@ -38,16 +41,34 @@ defineProps({
                                     </h1>
                                     <p
                                         class="text-gray-700"
-                                        v-show="profile != null"
-                                        v-text="profile.description"
+                                        v-if="user.profile != null"
+                                        v-text="user.profile.description"
                                     ></p>
                                     <div
                                         class="mt-6 flex flex-wrap gap-4 justify-center"
                                     >
-                                        <a
-                                            href="#"
-                                            class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
-                                            >Contact</a
+                                        <button
+                                            v-if="
+                                                $page.props.auth.friends.some(
+                                                    (friend) =>
+                                                        friend.id === user.id
+                                                )
+                                            "
+                                            @click="unfriend(user.id)"
+                                            class="border-1 bg-sky-100 hover:bg-red-100 p-2 rounded-md"
+                                            type="button"
+                                        >
+                                            Unfriend
+                                        </button>
+
+                                        <Link
+                                            v-else
+                                            :href="`/friends/${user.id}`"
+                                            method="post"
+                                            as="button"
+                                            type="button"
+                                            class="border-1 bg-sky-100 hover:bg-blue-100 p-2 rounded-md"
+                                            >Add Friend</Link
                                         >
                                         <a
                                             href="#"
@@ -60,7 +81,7 @@ defineProps({
                                 <div class="flex flex-col">
                                     <span
                                         class="text-gray-700 uppercase font-bold tracking-wider mb-2"
-                                        >Skills</span
+                                        >Suffering from</span
                                     >
                                     <ul>
                                         <li class="mb-2">JavaScript</li>
@@ -75,20 +96,14 @@ defineProps({
                         <div class="col-span-4 sm:col-span-9">
                             <div class="bg-white shadow rounded-lg p-6">
                                 <h2 class="text-xl font-bold mb-4">About Me</h2>
-                                <p class="text-gray-700">
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Sed finibus est vitae
-                                    tortor ullamcorper, ut vestibulum velit
-                                    convallis. Aenean posuere risus non velit
-                                    egestas suscipit. Nunc finibus vel ante id
-                                    euismod. Vestibulum ante ipsum primis in
-                                    faucibus orci luctus et ultrices posuere
-                                    cubilia Curae; Aliquam erat volutpat. Nulla
-                                    vulputate pharetra tellus, in luctus risus
-                                    rhoncus id.
-                                </p>
+                                <p
+                                    class="text-gray-700"
+                                    v-if="user.profile != null"
+                                    v-text="user.profile.description"
+                                ></p>
+                                <p v-else>The user has yet to fill this part</p>
 
-                                <h3
+                                <!-- <h3
                                     class="font-semibold text-center mt-3 -mb-2"
                                 >
                                     Find me on
@@ -181,7 +196,7 @@ defineProps({
                                             ></path>
                                         </svg>
                                     </a>
-                                </div>
+                                </div> -->
 
                                 <h2 class="text-xl font-bold mt-6 mb-4">
                                     Experience

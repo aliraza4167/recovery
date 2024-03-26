@@ -46,6 +46,12 @@ class HandleInertiaRequests extends Middleware
                 'profile' => fn () => $request->user()
                     ? $request->user()->profile->only('user_id', 'gender', 'description', 'story')
                     : null,
+                'friends' => fn () => $request->user()
+                    ? $request->user()->friends()->get()->map(fn ($friend) => [
+                        'id' => $friend->id,
+                        'name' => $friend->name,
+                    ])
+                    : null
             ],
             // 'auth' => [
             //     'user' => $request->user(),

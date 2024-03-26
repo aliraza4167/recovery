@@ -70,16 +70,14 @@ Route::get('/conversations', function () {
 
 Route::get('/user/{id}', function ($id) {
     $user = User::findorfail($id);
+    $profile = $user->profile;
     return Inertia::render('UserPublicProfile', [
-        'user' => [
-            'id' => $user->id,
-            'name' => $user->name
-        ],
-        'profile' => [
-            'gender' => $user->profile->gender,
-            'description' => $user->profile->description,
-            'story' => $user->profile->story,
-        ]
+        'user' => $user,
+        // 'profile' => [
+        //     'gender' => $user->profile->gender,
+        //     'description' => $user->profile->description,
+        //     'story' => $user->profile->story,
+        // ]
     ]);
 })->middleware('auth')->name('public.profile');
 
