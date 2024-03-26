@@ -70,14 +70,17 @@ Route::get('/conversations', function () {
 
 Route::get('/user/{id}', function ($id) {
     $user = User::findorfail($id);
+    $pains = $user->pains;
     $profile = $user->profile;
     return Inertia::render('UserPublicProfile', [
-        'user' => $user,
-        // 'profile' => [
-        //     'gender' => $user->profile->gender,
-        //     'description' => $user->profile->description,
-        //     'story' => $user->profile->story,
-        // ]
+        'user' => $user->only('id', 'name'),
+        'pains' => $pains->map(fn ($pain) => [
+            'user_id' => $pain->user_id,
+            'name' => $pain->name,
+            'description' => $pain->description,
+            'when' => $pain->when,
+        ]),
+        'profile' => $profile->only('user_id', 'gender', 'description', 'story'),
     ]);
 })->middleware('auth')->name('public.profile');
 
