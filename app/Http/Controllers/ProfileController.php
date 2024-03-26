@@ -47,11 +47,12 @@ class ProfileController extends Controller
             'gender' => 'required'
         ]);
 
-        Profile::create([
+        Profile::updateOrCreate([
+            'user_id' => Auth::user()->id
+        ], [
             'description' => $validated['description'],
             'story' => $validated['story'],
             'gender' => $validated['gender'],
-            'user_id' => Auth::user()->id
         ]);
 
         return Redirect::route('profile.edit');
