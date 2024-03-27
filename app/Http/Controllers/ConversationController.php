@@ -33,10 +33,6 @@ class ConversationController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
-        return Inertia::render('Conversation/Show', [
-            'messages' => 'hello'
-        ]);
     }
 
     /**
@@ -44,7 +40,10 @@ class ConversationController extends Controller
      */
     public function show(conversation $conversation)
     {
-        //
+        dd($conversation);
+        return Inertia::render('Conversation/Show', [
+            'messages' => $conversation
+        ]);
     }
 
     /**
