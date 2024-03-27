@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import { stringify } from "postcss";
 
 defineProps({
@@ -23,6 +23,18 @@ defineProps({
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         List of your conversations
+                        <div>
+                            <ul
+                                v-for="(conversation, index) in conversations"
+                                :key="index"
+                            >
+                                <Link
+                                    :href="`/conversations/${conversation.id}`"
+                                >
+                                    <li>{{ conversation.subject }}</li>
+                                </Link>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -50,8 +50,10 @@ const showingNavigationDropdown = ref(false);
                                     Posts
                                 </NavLink>
                                 <NavLink
-                                    :href="route('conversations')"
-                                    :active="route().current('conversations')"
+                                    :href="route('conversations.index')"
+                                    :active="
+                                        route().current('conversations.index')
+                                    "
                                 >
                                     Messages
                                 </NavLink>

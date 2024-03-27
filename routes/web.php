@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
@@ -52,6 +53,7 @@ Route::middleware('auth')->group(function () {
 
 // Route::resource('friends', FriendController::class);
 Route::resource('posts', PostController::class);
+Route::resource('conversations', ConversationController::class);
 
 // Route::get('/friends/add', function ($request) {
 //     dd($request);
@@ -64,9 +66,12 @@ Route::get('/publish_hub', function () {
     return Inertia::render('Publish_Hub');
 })->middleware(['auth', 'verified'])->name('publish_hub');
 
-Route::get('/conversations', function () {
-    return Inertia::render('Conversations');
-})->middleware(['auth', 'verified'])->name('conversations');
+// Route::get('/conversations', function () {
+//     $conversations = Auth::user()->conversations;
+//     return Inertia::render('Conversations', [
+//         'conversations' => $conversations
+//     ]);
+// })->middleware(['auth', 'verified'])->name('conversations');
 
 Route::get('/user/{id}', function ($id) {
     $user = User::findorfail($id);
