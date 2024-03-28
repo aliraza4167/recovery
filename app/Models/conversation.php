@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Message;
 
-class conversation extends Model
+class Conversation extends Model
 {
     use HasFactory;
 

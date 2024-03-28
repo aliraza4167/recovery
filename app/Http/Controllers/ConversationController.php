@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\conversation;
+use App\Models\Conversation;
+use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -25,7 +26,7 @@ class ConversationController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Conversation/Create');
     }
 
     /**
@@ -33,16 +34,18 @@ class ConversationController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(conversation $conversation)
+    public function show(Conversation $conversation)
     {
-        dd($conversation);
+        $messages = Message::where(['conversation_id' => $conversation->id])->with('user')->get();
+        // dd($messages);
         return Inertia::render('Conversation/Show', [
-            'messages' => $conversation
+            'messages' => $messages
         ]);
     }
 
