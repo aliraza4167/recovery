@@ -26,7 +26,7 @@ const submit = () => {
     <!-- This is an example component -->
     <div class="container mx-auto shadow-lg rounded-lg">
         <!-- headaer -->
-        <div
+        <!-- <div
             class="px-5 py-5 flex justify-between items-center bg-white border-b-2"
         >
             <div class="font-semibold text-2xl">GoingChat</div>
@@ -44,7 +44,7 @@ const submit = () => {
             >
                 RA
             </div>
-        </div>
+        </div> -->
         <!-- end header -->
         <!-- Chatting -->
         <div class="flex flex-row justify-between bg-white">
@@ -237,7 +237,7 @@ const submit = () => {
                 </div>
             </div>
             <!-- end message -->
-            <div class="w-2/5 border-l-2 px-5">
+            <!-- <div class="w-2/5 border-l-2 px-5">
                 <div class="flex flex-col">
                     <div class="font-semibold text-xl py-4">
                         Mern Stack Group
@@ -253,7 +253,7 @@ const submit = () => {
                         Deserunt, perspiciatis!
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
