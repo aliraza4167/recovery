@@ -76,10 +76,10 @@ const unfriend = (id) => {
                                             class="border-1 bg-sky-100 hover:bg-blue-100 p-2 rounded-md"
                                             >Add Friend</Link
                                         >
-                                        <a
-                                            href="#"
+                                        <Link
+                                            href="/conversations/create"
                                             class="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded"
-                                            >Resume</a
+                                            >Message</Link
                                         >
                                     </div>
                                 </div>

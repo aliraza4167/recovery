@@ -37,25 +37,6 @@ const selectConversation = (msg) => {
 </script>
 
 <template>
-    <!-- <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    List of your conversations
-                    <div>
-                        <ul
-                            v-for="(conversation, index) in conversations"
-                            :key="index"
-                        >
-                            <Link :href="`/conversations/${conversation.id}`">
-                                <li>{{ conversation.subject }}</li>
-                            </Link>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <!-- This is an example component -->
     <div class="container mx-auto shadow-lg rounded-lg">
         <!-- Chatting -->
@@ -87,7 +68,7 @@ const selectConversation = (msg) => {
                     </div>
                     <div class="w-full">
                         <div class="text-lg font-semibold">
-                            {{ conversation.subject }}
+                            {{ conversation.name }}
                         </div>
                         <span class="text-gray-500">Pick me at 9:00 Am</span>
                     </div>

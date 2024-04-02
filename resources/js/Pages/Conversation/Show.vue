@@ -27,36 +27,6 @@ const submit = () => {
 </script>
 
 <template>
-    <!-- <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <div>
-                        <ul v-for="(message, index) in messages" :key="index">
-                            <li>
-                                {{ message.body }} sent by
-                                {{ message.user.name }}
-                            </li>
-                        </ul>
-                    </div>
-                    <form @submit.prevent="submit">
-                        <TextInput
-                            id="name"
-                            type="text"
-                            class="mt-1 block w-full"
-                            v-model="form.messageBody"
-                            required
-                            autofocus
-                        ></TextInput
-                        ><PrimaryButton>Send</PrimaryButton>
-                    </form>
-                    <Link href="/conversations/create"
-                        >Take me to conversation create page</Link
-                    >
-                </div>
-            </div>
-        </div>
-    </div> -->
     <!-- message -->
     <div class="w-full px-5 flex flex-col justify-between">
         <div
