@@ -1,8 +1,9 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head, useForm, usePage } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
+import { onMounted } from "vue";
 
 defineProps({
     messages: Array,
@@ -17,6 +18,10 @@ const form = useForm({
     sender_id: "",
     conversation_id: "",
     messageBody: "",
+});
+
+onMounted(() => {
+    form.sender_id = usePage().props.auth.user.id;
 });
 
 const submit = () => {
@@ -95,11 +100,15 @@ const submit = () => {
                     </div>
                 </div>
                 <div class="py-5">
-                    <input
-                        class="w-full bg-gray-300 py-5 px-3 rounded-xl"
-                        type="text"
-                        placeholder="type your message here..."
-                    />
+                    <form @submit.prevent="submit">
+                        <input
+                            v-model="form.messageBody"
+                            class="w-full bg-gray-300 py-5 px-3 rounded-xl"
+                            type="text"
+                            placeholder="type your message here..."
+                            required
+                        />
+                    </form>
                 </div>
             </div>
             <!-- end message -->
