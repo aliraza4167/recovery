@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\message>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class MessageFactory extends Factory
+class ConversationUserFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,8 +19,8 @@ class MessageFactory extends Factory
         return [
             'conversation_id' => rand(1, 10),
             'user_id' => rand(1, 10),
-            'content' => fake()->paragraph(),
-            'is_read' => false,
+            'joined_datetime' => now(),
+            'left_datetime' => now(),
         ];
     }
 }

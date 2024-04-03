@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
         \App\Models\Profile::factory(10)->create();
         \App\Models\Post::factory(10)->create();
         \App\Models\Ache::factory(10)->create();
+        // \App\Models\Conversation::factory(10)->create();
+        // \App\Models\ConversationUser::factory(10)->create();
 
 
         // \App\Models\User::factory()->create([

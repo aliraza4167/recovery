@@ -17,8 +17,8 @@ return new class extends Migration
             $table->bigInteger('user_id')->unsigned()->index();
             $table->foreign('conversation_id')->references('id')->on('conversations')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->timestamp('joined_datetime');
-            $table->timestamp('left_datetime');
+            $table->timestamp('joined_datetime')->nullable();
+            $table->timestamp('left_datetime')->nullable();
         });
     }
 

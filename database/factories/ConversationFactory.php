@@ -17,7 +17,7 @@ class ConversationFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->text(),
         ];
     }
 }
