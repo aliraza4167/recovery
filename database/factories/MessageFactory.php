@@ -17,7 +17,7 @@ class MessageFactory extends Factory
     public function definition(): array
     {
         return [
-            'conversation_id' => rand(1, 10),
+            'conversation_id' => rand(1, 20),
             'user_id' => rand(1, 10),
             'content' => fake()->paragraph(),
             'is_read' => false,

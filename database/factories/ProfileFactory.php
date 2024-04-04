@@ -20,6 +20,7 @@ class ProfileFactory extends Factory
     {
         return [
             'user_id' => User::factory()->hasAttached(Conversation::factory()->count(2))->create(),
+            // 'user_id' => User::factory(),
             'gender' => '',
             'description' => '',
             'story' => '',
