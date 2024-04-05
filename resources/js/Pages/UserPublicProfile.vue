@@ -14,11 +14,15 @@ defineProps({
     },
 });
 
-const form = useForm({});
+const form = useForm({
+    receiver_id: "",
+});
 
 const unfriend = (id) => {
     form.delete(`/friends/${id}`);
 };
+
+const sendMessage = (id) => {};
 </script>
 
 <template>
@@ -78,6 +82,7 @@ const unfriend = (id) => {
                                         >
                                         <Link
                                             href="/conversations/create"
+                                            :data="{ id: user.id }"
                                             class="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded"
                                             >Message</Link
                                         >

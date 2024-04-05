@@ -7,6 +7,7 @@ import { onMounted } from "vue";
 
 defineProps({
     messages: Array,
+    receiverUser: Object,
 });
 
 defineOptions({
@@ -22,6 +23,8 @@ const form = useForm({
 
 onMounted(() => {
     form.sender_id = usePage().props.auth.user.id;
+    let urlParams = new URLSearchParams(window.location.search);
+    form.receiver_id = urlParams.get("id");
 });
 
 const submit = () => {
@@ -60,8 +63,12 @@ const submit = () => {
                         />
                     </div>
                     <div class="w-full">
-                        <div class="text-lg font-semibold">Luis1994</div>
-                        <span class="text-gray-500">Pick me at 9:00 Am</span>
+                        <div class="text-lg font-semibold">
+                            {{ receiverUser.name }}
+                        </div>
+                        <span class="text-gray-500">{{
+                            form.receiver_id
+                        }}</span>
                     </div>
                 </div>
                 <!-- end user list -->

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Conversation;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -24,9 +25,14 @@ class ConversationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return Inertia::render('Conversation/Create');
+        // dd($request->id);
+        $receiver_user = User::findOrFail($request->id);
+        return Inertia::render('Conversation/Create', [
+            'receiverUser' => $receiver_user,
+            'messages' => $receiver_user->conversations[0]->messages
+        ]);
     }
 
     /**
