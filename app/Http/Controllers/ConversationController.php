@@ -16,9 +16,10 @@ class ConversationController extends Controller
      */
     public function index()
     {
+        // dd(Auth::user()->conversations[0]->messages);
         $conversations = Auth::user()->conversations;
         return Inertia::render('Conversation/Index', [
-            'conversations' => $conversations
+            'conversations' => $conversations,
         ]);
     }
 
@@ -48,10 +49,10 @@ class ConversationController extends Controller
      */
     public function show(Conversation $conversation)
     {
-        $messages = Message::where(['conversation_id' => $conversation->id])->with('user')->get();
+        $messages = $conversation->messages;
         // dd($messages);
         return Inertia::render('Conversation/Show', [
-            'messages' => $messages
+            'messages' => $messages,
         ]);
     }
 

@@ -6,7 +6,7 @@ import { stringify } from "postcss";
 import { ref } from "vue";
 
 defineProps({
-    conversations: Array,
+    conversations: Object,
 });
 
 defineOptions({
@@ -68,7 +68,9 @@ const selectConversation = (msg) => {
                     </div>
                     <div class="w-full">
                         <div class="text-lg font-semibold">
-                            {{ conversation.name }}
+                            <Link :href="`conversations/` + conversation.id">{{
+                                conversation.name
+                            }}</Link>
                         </div>
                         <span class="text-gray-500">Pick me at 9:00 Am</span>
                     </div>

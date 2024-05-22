@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, useForm, usePage, Link } from "@inertiajs/vue3";
+import { onMounted } from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 
@@ -13,10 +14,13 @@ defineOptions({
 });
 
 const form = useForm({
-    receiver_id: "",
     sender_id: "",
     conversation_id: "",
     messageBody: "",
+});
+
+onMounted(() => {
+    form.sender_id = usePage().props.auth.user.id;
 });
 
 const submit = () => {
@@ -38,7 +42,7 @@ const submit = () => {
                 <div
                     class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"
                 >
-                    {{ message.body }}
+                    {{ message.content }}
                 </div>
                 <img
                     src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
