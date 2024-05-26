@@ -6,7 +6,7 @@ import { stringify } from "postcss";
 import { ref } from "vue";
 
 defineProps({
-    conversations: Object,
+    conversations: Array,
 });
 
 defineOptions({
@@ -57,7 +57,6 @@ const selectConversation = (msg) => {
                     class="flex flex-row py-4 px-2 justify-center items-center border-b-2"
                     v-for="(conversation, index) in conversations"
                     :key="index"
-                    @click="selectConversation(conversation.messages)"
                 >
                     <div class="w-1/4">
                         <img
@@ -72,14 +71,12 @@ const selectConversation = (msg) => {
                                 conversation.name
                             }}</Link>
                         </div>
-                        <span class="text-gray-500">Pick me at 9:00 Am</span>
                     </div>
                 </div>
 
                 <!-- end user list -->
             </div>
             <!-- end chat list -->
-            <Show v-if="conversationSelected" :messages="messages" />
         </div>
     </div>
 </template>

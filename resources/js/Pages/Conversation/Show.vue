@@ -16,12 +16,21 @@ defineOptions({
 const form = useForm({
     sender_id: "",
     conversation_id: "",
-    messageBody: "",
+    message_body: "",
 });
 
 onMounted(() => {
     form.sender_id = usePage().props.auth.user.id;
+    form.conversation_id = usePage().props.messages[0].conversation_id;
 });
+
+let isOwnerOfMessage = (id) => {
+    if (id == usePage().props.auth.user.id) {
+        return "justify-end";
+    } else {
+        return "justify-start";
+    }
+};
 
 const submit = () => {
     form.post(route("conversations.store"), {
@@ -38,7 +47,10 @@ const submit = () => {
             v-for="(message, index) in messages"
             :key="index"
         >
-            <div class="flex justify-end mb-4">
+            <div
+                class="flex mb-4"
+                v-bind:class="isOwnerOfMessage(message.user_id)"
+            >
                 <div
                     class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"
                 >
@@ -54,7 +66,7 @@ const submit = () => {
         <div class="py-5">
             <form @submit.prevent="submit">
                 <input
-                    v-model="form.messageBody"
+                    v-model="form.message_body"
                     class="w-full bg-gray-300 py-5 px-3 rounded-xl"
                     type="text"
                     placeholder="type your message here..."
