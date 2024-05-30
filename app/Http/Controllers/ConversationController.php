@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MessageResource;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\User;
@@ -29,11 +30,17 @@ class ConversationController extends Controller
     public function create(Request $request)
     {
         // dd($request->id);
-        $receiver_user = User::findOrFail($request->id);
-        return Inertia::render('Conversation/Create', [
-            'receiverUser' => $receiver_user,
-            'messages' => $receiver_user->conversations[0]->messages
+        $recipient = User::findOrFail($request->id);
+
+        // create conversation record
+        $new_conversation = Conversation::create([
+            'name' => $recipient->name . '-' . Auth::user()->name,
         ]);
+
+        // attach both users to the conversation
+        $new_conversation->users()->attach([$recipient->id, Auth::user()->id]);
+
+        return redirect('conversations/' . $new_conversation->id)->with('message', 'conversation created succcessfully');
     }
 
     /**
@@ -66,6 +73,7 @@ class ConversationController extends Controller
         $messages = $conversation->messages;
         // dd($messages);
         return Inertia::render('Conversation/Show', [
+            'conversation' => $conversation,
             'messages' => $messages,
         ]);
     }

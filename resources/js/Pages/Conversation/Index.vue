@@ -2,6 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Show from "./Show.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
+import { onMounted } from "vue";
 import { stringify } from "postcss";
 import { ref } from "vue";
 
@@ -34,6 +35,14 @@ const selectConversation = (msg) => {
     messages.value = msg;
     console.log(msg);
 };
+
+// const makeAxiosCall = (conversation_id) => {
+//     axios
+//         .get("http://localhost/conversation/" + conversation_id)
+//         .then(function (response) {
+//             console.log(response);
+//         });
+// };
 </script>
 
 <template>
@@ -67,6 +76,9 @@ const selectConversation = (msg) => {
                     </div>
                     <div class="w-full">
                         <div class="text-lg font-semibold">
+                            <!-- <button :on-click="makeAxiosCall(conversation.id)">
+                                {{ conversation.name }}
+                            </button> -->
                             <Link :href="`conversations/` + conversation.id">{{
                                 conversation.name
                             }}</Link>

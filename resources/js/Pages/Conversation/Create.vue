@@ -6,8 +6,8 @@ import TextInput from "@/Components/TextInput.vue";
 import { onMounted } from "vue";
 
 defineProps({
+    conversation: Object,
     messages: Array,
-    receiverUser: Object,
 });
 
 defineOptions({
@@ -15,21 +15,33 @@ defineOptions({
 });
 
 const form = useForm({
-    receiver_id: "",
     sender_id: "",
     conversation_id: "",
-    messageBody: "",
+    message_body: "",
 });
 
 onMounted(() => {
     form.sender_id = usePage().props.auth.user.id;
-    let urlParams = new URLSearchParams(window.location.search);
-    form.receiver_id = urlParams.get("id");
+    form.conversation_id = usePage().props.conversation.id;
 });
+
+// onMounted(() => {
+//     form.sender_id = usePage().props.auth.user.id;
+//     // let urlParams = new URLSearchParams(window.location.search);
+//     // form.receiver_id = urlParams.get("id");
+// });
+
+let isOwnerOfMessage = (id) => {
+    if (id == usePage().props.auth.user.id) {
+        return "justify-end";
+    } else {
+        return "justify-start";
+    }
+};
 
 const submit = () => {
     form.post(route("conversations.store"), {
-        onFinish: () => form.reset("messageBody"),
+        onFinish: () => form.reset("message_body"),
     });
 };
 </script>
@@ -64,11 +76,8 @@ const submit = () => {
                     </div>
                     <div class="w-full">
                         <div class="text-lg font-semibold">
-                            {{ receiverUser.name }}
+                            {{ conversation.name }}
                         </div>
-                        <span class="text-gray-500">{{
-                            form.receiver_id
-                        }}</span>
                     </div>
                 </div>
                 <!-- end user list -->
@@ -76,40 +85,31 @@ const submit = () => {
             <!-- end chat list -->
             <!-- message -->
             <div class="w-full px-5 flex flex-col justify-between">
-                <div class="flex flex-col mt-5">
-                    <div class="flex justify-end mb-4">
+                <div
+                    class="flex flex-col mt-5"
+                    v-for="(message, index) in messages"
+                    :key="index"
+                >
+                    <div
+                        class="flex mb-4"
+                        v-bind:class="isOwnerOfMessage(message.user_id)"
+                    >
                         <div
                             class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"
                         >
-                            Welcome to group everyone !
+                            {{ message.content }}
                         </div>
                         <img
                             src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
                             class="object-cover h-8 w-8 rounded-full"
                             alt=""
                         />
-                    </div>
-                    <div class="flex justify-start mb-4">
-                        <img
-                            src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-                            class="object-cover h-8 w-8 rounded-full"
-                            alt=""
-                        />
-                        <div
-                            class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white"
-                        >
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Quaerat at praesentium, aut ullam delectus
-                            odio error sit rem. Architecto nulla doloribus
-                            laborum illo rem enim dolor odio saepe, consequatur
-                            quas?
-                        </div>
                     </div>
                 </div>
                 <div class="py-5">
                     <form @submit.prevent="submit">
                         <input
-                            v-model="form.messageBody"
+                            v-model="form.message_body"
                             class="w-full bg-gray-300 py-5 px-3 rounded-xl"
                             type="text"
                             placeholder="type your message here..."
