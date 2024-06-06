@@ -1,13 +1,17 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import MessageThread from "@/Components/MessageThread.vue";
 import Show from "./Show.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
-import { onMounted } from "vue";
+import { getCurrentInstance, onMounted } from "vue";
 import { stringify } from "postcss";
 import { ref } from "vue";
+import axios from "axios";
+import InputLabel from "@/Components/InputLabel.vue";
 
 defineProps({
     conversations: Array,
+    message_count: Array,
 });
 
 defineOptions({
@@ -15,14 +19,15 @@ defineOptions({
 });
 
 const conversationSelected = ref(false);
+const selected_conversation_id = ref();
 const messages = ref();
 
-const form = useForm({
-    receiver_id: "",
-    sender_id: "",
-    conversation_id: "",
-    messageBody: "",
-});
+// const form = useForm({
+//     receiver_id: "",
+//     sender_id: "",
+//     conversation_id: "",
+//     messageBody: "",
+// });
 
 const submit = () => {
     form.post(route("conversations.store"), {
@@ -30,19 +35,28 @@ const submit = () => {
     });
 };
 
-const selectConversation = (msg) => {
-    conversationSelected.value = true;
-    messages.value = msg;
-    console.log(msg);
-};
+function makeAxiosCall(conversation_id) {
+    axios.get("https://catfact.ninja/fact").then(function (response) {
+        console.log(response);
+        console.log(response.data.fact);
+        console.log(conversation_id);
+    });
+}
 
-// const makeAxiosCall = (conversation_id) => {
-//     axios
-//         .get("http://localhost/conversation/" + conversation_id)
-//         .then(function (response) {
-//             console.log(response);
-//         });
-// };
+function getMessagesForConversation(conversation_id) {
+    // conversationSelected.value = false;
+    fetch("/conversations/" + conversation_id + "/edit") // api for the get request
+        .then((response) => response.json())
+        .then((data) => {
+            selected_conversation_id.value = conversation_id;
+            console.log(
+                "selected_conversation_id.value = " +
+                    selected_conversation_id.value
+            );
+            messages.value = data;
+            conversationSelected.value = true;
+        });
+}
 </script>
 
 <template>
@@ -76,19 +90,31 @@ const selectConversation = (msg) => {
                     </div>
                     <div class="w-full">
                         <div class="text-lg font-semibold">
-                            <!-- <button :on-click="makeAxiosCall(conversation.id)">
-                                {{ conversation.name }}
-                            </button> -->
                             <Link :href="`conversations/` + conversation.id">{{
                                 conversation.name
                             }}</Link>
                         </div>
+                        <span
+                            ><button
+                                @click="
+                                    getMessagesForConversation(conversation.id)
+                                "
+                            >
+                                Make axios call
+                            </button></span
+                        >
+                        <!-- <InputLabel :value="conversation.id"></InputLabel> -->
                     </div>
                 </div>
 
                 <!-- end user list -->
             </div>
             <!-- end chat list -->
+            <MessageThread
+                v-if="conversationSelected"
+                :messages="messages"
+                :conversation_id="selected_conversation_id"
+            />
         </div>
     </div>
 </template>

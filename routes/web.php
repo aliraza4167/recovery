@@ -5,6 +5,7 @@ use App\Http\Controllers\FriendController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Models\Message;
 use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -54,6 +55,11 @@ Route::middleware('auth')->group(function () {
 // Route::resource('friends', FriendController::class);
 Route::resource('posts', PostController::class);
 Route::resource('conversations', ConversationController::class);
+
+// Route::get('/getmessages/{id}', function ($id) {
+//     // dd($id);
+//     return response()->json(Message::where('conversation_id', $id)->get());
+// });
 
 // Route::get('/friends/add', function ($request) {
 //     dd($request);

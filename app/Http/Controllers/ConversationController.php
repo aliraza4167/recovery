@@ -19,8 +19,14 @@ class ConversationController extends Controller
     {
         // dd(Auth::user()->conversations[0]->messages);
         $conversations = Auth::user()->conversations;
+        foreach ($conversations as $conversation) {
+            $message_count[] = $conversation->messages->where('user_id', '!=', Auth::user()->id)->where('is_read', false);
+        }
+        // dd($message_count);
+
         return Inertia::render('Conversation/Index', [
             'conversations' => $conversations,
+            'message_count' => $message_count,
         ]);
     }
 
@@ -72,10 +78,17 @@ class ConversationController extends Controller
     {
         $messages = $conversation->messages;
         // dd($messages);
+
         return Inertia::render('Conversation/Show', [
             'conversation' => $conversation,
             'messages' => $messages,
         ]);
+        // return response()->json($messages);
+    }
+
+    public function msgs(Conversation $conversation)
+    {
+        $messages = $conversation->messages();
     }
 
     /**
@@ -83,7 +96,9 @@ class ConversationController extends Controller
      */
     public function edit(conversation $conversation)
     {
-        //
+        $messages = $conversation->messages;
+
+        return response()->json($messages);
     }
 
     /**
