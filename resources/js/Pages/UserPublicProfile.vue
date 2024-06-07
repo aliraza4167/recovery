@@ -26,7 +26,11 @@ const unfriend = (id) => {
     form.delete(`/friends/${id}`);
 };
 
-const sendMessage = (id) => {};
+const createConversation = (id) => {
+    form.post(route("conversations.store"), {
+        onFinish: () => form.reset("message_body"),
+    });
+};
 </script>
 
 <template>
@@ -76,14 +80,18 @@ const sendMessage = (id) => {};
                                         class="border-1 bg-sky-100 hover:bg-blue-100 p-2 rounded-md"
                                         >Add Friend</Link
                                     >
-                                    <Link
-                                        :href="
-                                            `/conversations/create?id=` +
-                                            user.id
+                                    <form
+                                        @submit.prevent="
+                                            createConversation(user.id)
                                         "
-                                        class="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded"
-                                        >Message</Link
                                     >
+                                        <button
+                                            type="submit"
+                                            class="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded"
+                                        >
+                                            Message
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                             <hr class="my-6 border-t border-gray-300" />

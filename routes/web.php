@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\FriendController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -55,6 +56,7 @@ Route::middleware('auth')->group(function () {
 // Route::resource('friends', FriendController::class);
 Route::resource('posts', PostController::class);
 Route::resource('conversations', ConversationController::class);
+Route::resource('messages', MessageController::class);
 
 // Route::get('/getmessages/{id}', function ($id) {
 //     // dd($id);

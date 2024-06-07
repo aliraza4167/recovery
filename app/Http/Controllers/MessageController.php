@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\message;
+use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -28,7 +29,21 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
+        // VALIDATION
+        $validated = $request->validate([
+            'sender_id' => 'exists:users,id',
+            'conversation_id' => 'exists:conversations,id',
+            'message_body' => 'required'
+        ]);
+
+        Message::create([
+            'conversation_id' => $validated['conversation_id'],
+            'user_id' => Auth::user()->id,
+            'content' => $validated['message_body'],
+        ]);
+
+        return redirect('conversations/' . $validated['conversation_id'])->with('message', 'Message sent successfully');
     }
 
     /**

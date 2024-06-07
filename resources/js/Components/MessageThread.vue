@@ -38,7 +38,7 @@ let isOwnerOfMessage = (id) => {
 };
 
 const submit = () => {
-    form.post(route("conversations.store"), {
+    form.post(route("messages.store"), {
         onFinish: () => form.reset("message_body"),
     });
 };
@@ -46,38 +46,22 @@ const submit = () => {
 
 <template>
     <!-- message -->
-    <div class="w-full px-5 flex flex-col justify-between">
-        <div
-            class="flex flex-col mt-5"
-            v-for="(message, index) in messages"
-            :key="index"
-        >
+    <div
+        class="flex flex-col mt-5"
+        v-for="(message, index) in messages"
+        :key="index"
+    >
+        <div class="flex mb-4" v-bind:class="isOwnerOfMessage(message.user_id)">
             <div
-                class="flex mb-4"
-                v-bind:class="isOwnerOfMessage(message.user_id)"
+                class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"
             >
-                <div
-                    class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"
-                >
-                    {{ message.content }}
-                </div>
-                <img
-                    src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-                    class="object-cover h-8 w-8 rounded-full"
-                    alt=""
-                />
+                {{ message.content }}
             </div>
-        </div>
-        <div class="py-5">
-            <form @submit.prevent="submit">
-                <input
-                    v-model="form.message_body"
-                    class="w-full bg-gray-300 py-5 px-3 rounded-xl"
-                    type="text"
-                    placeholder="type your message here..."
-                    required
-                />
-            </form>
+            <img
+                src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+                class="object-cover h-8 w-8 rounded-full"
+                alt=""
+            />
         </div>
     </div>
     <!-- end message -->

@@ -9,9 +9,13 @@ import { ref } from "vue";
 import axios from "axios";
 import InputLabel from "@/Components/InputLabel.vue";
 
-defineProps({
-    conversations: Array,
-    message_count: Array,
+const props = defineProps({
+    conversations: {
+        type: Array,
+    },
+    message_count: {
+        type: Array,
+    },
 });
 
 defineOptions({
@@ -22,12 +26,11 @@ const conversationSelected = ref(false);
 const selected_conversation_id = ref();
 const messages = ref();
 
-// const form = useForm({
-//     receiver_id: "",
-//     sender_id: "",
-//     conversation_id: "",
-//     messageBody: "",
-// });
+const form = useForm({
+    sender_id: "",
+    conversation_id: "",
+    message_body: "",
+});
 
 const submit = () => {
     form.post(route("conversations.store"), {
@@ -44,15 +47,10 @@ function makeAxiosCall(conversation_id) {
 }
 
 function getMessagesForConversation(conversation_id) {
-    // conversationSelected.value = false;
     fetch("/conversations/" + conversation_id + "/edit") // api for the get request
         .then((response) => response.json())
         .then((data) => {
             selected_conversation_id.value = conversation_id;
-            console.log(
-                "selected_conversation_id.value = " +
-                    selected_conversation_id.value
-            );
             messages.value = data;
             conversationSelected.value = true;
         });
@@ -110,11 +108,27 @@ function getMessagesForConversation(conversation_id) {
                 <!-- end user list -->
             </div>
             <!-- end chat list -->
-            <MessageThread
-                v-if="conversationSelected"
-                :messages="messages"
-                :conversation_id="selected_conversation_id"
-            />
+
+            <!-- message -->
+            <div class="w-full px-5 flex flex-col justify-between">
+                <MessageThread
+                    v-if="conversationSelected"
+                    :messages="messages"
+                    :conversation_id="selected_conversation_id"
+                />
+                <div class="py-5">
+                    <form @submit.prevent="submit">
+                        <input
+                            v-model="form.message_body"
+                            class="w-full bg-gray-300 py-5 px-3 rounded-xl"
+                            type="text"
+                            placeholder="type your message here..."
+                            required
+                        />
+                    </form>
+                </div>
+            </div>
+            <!-- end message -->
         </div>
     </div>
 </template>

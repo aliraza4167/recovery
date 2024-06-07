@@ -35,7 +35,14 @@ class ConversationController extends Controller
      */
     public function create(Request $request)
     {
-        // dd($request->id);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        dd($request);
         $recipient = User::findOrFail($request->id);
 
         // create conversation record
@@ -47,28 +54,6 @@ class ConversationController extends Controller
         $new_conversation->users()->attach([$recipient->id, Auth::user()->id]);
 
         return redirect('conversations/' . $new_conversation->id)->with('message', 'conversation created succcessfully');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        // dd($request);
-        // VALIDATION
-        $validated = $request->validate([
-            'sender_id' => 'exists:users,id',
-            'conversation_id' => 'exists:conversations,id',
-            'message_body' => 'required'
-        ]);
-
-        Message::create([
-            'conversation_id' => $validated['conversation_id'],
-            'user_id' => Auth::user()->id,
-            'content' => $validated['message_body'],
-        ]);
-
-        return redirect('conversations/' . $validated['conversation_id'])->with('message', 'Message sent successfully');
     }
 
     /**
