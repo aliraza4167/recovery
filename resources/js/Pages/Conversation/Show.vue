@@ -34,7 +34,7 @@ let isOwnerOfMessage = (id) => {
 };
 
 const submit = () => {
-    form.post(route("conversations.store"), {
+    form.post(route("messages.store"), {
         onFinish: () => form.reset("message_body"),
     });
 };

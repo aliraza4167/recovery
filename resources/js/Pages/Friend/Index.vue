@@ -35,7 +35,7 @@ const unfriend = (id) => {
                                 class="flex justify-between space-y-4 rounded-md"
                             >
                                 <li>
-                                    <Link :href="`user/` + friend.id">
+                                    <Link :href="`users/` + friend.id">
                                         <Avatar
                                             :label="Array.from(friend.name)[0]"
                                             class="mr-2 hover:bg-red-100"

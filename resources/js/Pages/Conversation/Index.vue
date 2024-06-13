@@ -116,7 +116,7 @@ function getMessagesForConversation(conversation_id) {
                     :messages="messages"
                     :conversation_id="selected_conversation_id"
                 />
-                <div class="py-5">
+                <!-- <div class="py-5">
                     <form @submit.prevent="submit">
                         <input
                             v-model="form.message_body"
@@ -126,7 +126,7 @@ function getMessagesForConversation(conversation_id) {
                             required
                         />
                     </form>
-                </div>
+                </div> -->
             </div>
             <!-- end message -->
         </div>

@@ -64,5 +64,18 @@ const submit = () => {
             />
         </div>
     </div>
+
+    <!-- START OF THE TEXT FIELD FOR SENDING MESSAGE -->
+    <div class="py-5">
+        <form @submit.prevent="submit">
+            <input
+                v-model="form.message_body"
+                class="w-full bg-gray-300 py-5 px-3 rounded-xl"
+                type="text"
+                placeholder="type your message here..."
+                required
+            />
+        </form>
+    </div>
     <!-- end message -->
 </template>

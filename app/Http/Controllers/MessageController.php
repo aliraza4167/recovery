@@ -29,7 +29,7 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        // dd($request);
         // VALIDATION
         $validated = $request->validate([
             'sender_id' => 'exists:users,id',

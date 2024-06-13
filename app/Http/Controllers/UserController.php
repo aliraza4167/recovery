@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -55,9 +56,20 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        $pains = $user->pains;
+        $profile = $user->profile;
+        return Inertia::render('UserPublicProfile', [
+            'user' => $user->only('id', 'name'),
+            'pains' => $pains->map(fn ($pain) => [
+                'user_id' => $pain->user_id,
+                'name' => $pain->name,
+                'description' => $pain->description,
+                'when' => $pain->when,
+            ]),
+            'profile' => $profile->only('user_id', 'gender', 'description', 'story'),
+        ]);
     }
 
     public function showFriend(string $id)

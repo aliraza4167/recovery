@@ -28,7 +28,7 @@ defineOptions({
                         :key="user.id"
                         class="flex justify-between space-y-4"
                     >
-                        <Link :href="`user/` + user.id">
+                        <Link :href="`users/` + user.id">
                             <li>
                                 <Avatar
                                     :label="Array.from(user.name)[0]"

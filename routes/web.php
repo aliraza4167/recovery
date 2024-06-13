@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
 Route::resource('posts', PostController::class);
 Route::resource('conversations', ConversationController::class);
 Route::resource('messages', MessageController::class);
+Route::resource('users', UserController::class);
 
 // Route::get('/getmessages/{id}', function ($id) {
 //     // dd($id);
@@ -81,21 +82,7 @@ Route::get('/publish_hub', function () {
 //     ]);
 // })->middleware(['auth', 'verified'])->name('conversations');
 
-Route::get('/user/{id}', function ($id) {
-    $user = User::findorfail($id);
-    $pains = $user->pains;
-    $profile = $user->profile;
-    return Inertia::render('UserPublicProfile', [
-        'user' => $user->only('id', 'name'),
-        'pains' => $pains->map(fn ($pain) => [
-            'user_id' => $pain->user_id,
-            'name' => $pain->name,
-            'description' => $pain->description,
-            'when' => $pain->when,
-        ]),
-        'profile' => $profile->only('user_id', 'gender', 'description', 'story'),
-    ]);
-})->middleware('auth')->name('public.profile');
+// Route::get('/user/{id}', [UserController::class, 'show'])->middleware('auth')->name('public.profile');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
